@@ -9,9 +9,9 @@ using namespace std;
 
 void menu();
 
-void free_array(long int *array, bool readed_file) // czyszczenie, free usuwa calosc i przy ponowniej reallokacji przy free program sie wysypie
+void free_array(long int *array, bool read_file) // czyszczenie, free usuwa calosc i przy ponowniej reallokacji przy free program sie wysypie
 {
-	if (readed_file)
+	if (read_file)
 	{
 	
 		long int *temp_array;
@@ -123,7 +123,7 @@ void menu()
 {
 	char option;
 	long int *array;
-	bool readed_file=false;
+	bool read_file=false;
 	string name;
 	long int iterator;
 	
@@ -145,19 +145,19 @@ void menu()
 		case '1':
 			cout << "Podaj nazwe pliku: ";
 			cin >> name;
-			free_array(array, readed_file);
-			readed_file=read_txt_array(array,name,iterator);
+			free_array(array, read_file);
+			read_file=read_txt_array(array,name,iterator);
 		break;
 		
 		case '2':	
 			cout << "Podaj nazwe pliku: ";
 			cin >> name;
-			free_array(array, readed_file);
-			readed_file=read_bin_array(array,name,iterator);
+			free_array(array, read_file);
+			read_file=read_bin_array(array,name,iterator);
 		break;
 		
 		case '3':
-			if (readed_file)
+			if (read_file)
 			{
 			cout << "Podaj nazwe pliku: ";
 			cin >> name;
@@ -166,7 +166,7 @@ void menu()
 		break;
 		
 		case '4':
-			if (readed_file)
+			if (read_file)
 			{
 			cout << "Podaj nazwe pliku: ";
 			cin >> name;
