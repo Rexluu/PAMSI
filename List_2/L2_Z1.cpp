@@ -23,7 +23,7 @@ void show_array()
 void copy_array(string *from_array, string *to_array, unsigned int first, unsigned int last, int move)
 {
 	for (unsigned int i = first; i < last; i++)
-		to_array[i+move] = from_array[i];
+		to_array[i+move] = from_array[i]; // it isin't the best way, better use memcpy/ copy_n
 }
 
 
@@ -100,6 +100,7 @@ void perm(string word, unsigned int iter, unsigned int n)
 
 int main()
 {
+
 	string word;
 	cout << "- - - - - - - - - - - - - - - - - - - - - - - - - - - - -" << endl;
 	cout << "Program do generowania wszystkich mozliwych permutacji," << endl;
