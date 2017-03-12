@@ -3,7 +3,7 @@
 
 using namespace std; 
 
-bool check_palindrom(string word)
+bool check_palindrome(string word)
 {
 	bool status;
 	int len=word.length();
@@ -17,7 +17,7 @@ bool check_palindrom(string word)
 	} 
 	else status=false;
 	
-	return status && check_palindrom(word);
+	return status && check_palindrome(word);
 }
 
 int main()
@@ -28,7 +28,7 @@ int main()
 	string temp_word=word;
 	for (unsigned int i = 0; i < temp_word.length(); i++) temp_word[i]=tolower(temp_word[i]);
 	
-	check_palindrom(temp_word) ? cout << "Slowo: " << word << " jest palindromem" : cout << "Slowo: " << word << " nie jest palindromem";
+	check_palindrome(temp_word) ? cout << "Slowo: " << word << " jest palindromem" : cout << "Slowo: " << word << " nie jest palindromem";
 	
 	return 0;
 }
