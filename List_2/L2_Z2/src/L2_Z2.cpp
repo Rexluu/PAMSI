@@ -1,11 +1,12 @@
 #include "libraries.hpp"
 #include "Data.hpp"
 #include "List.hpp"
+#define variable_type string
 
 int menu()
 {
 	char option;
-	SL_List list;
+	SL_List <variable_type> list;
 	
 
 	cout << endl;
