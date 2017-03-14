@@ -1,11 +1,12 @@
 #include "libraries.hpp"
 #include "Data.hpp"
 #include "Queue.hpp"
+#define variable_type int;
 
 int menu()
 {
 	char option;
-	Queue queue;
+	Queue <variable_type> queue;
 	
 
 	cout << endl;

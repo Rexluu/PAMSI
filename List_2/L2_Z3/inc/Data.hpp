@@ -1,46 +1,52 @@
+template <typename Type>
 class Data
 {
-	variable_type data;
-	Data *next_data;
+	Type data;  // variable, not class
+	Data <Type> *next_data;
 
 public:
 	Data();
 	~Data();
 
-	void new_data(variable_type n_data);
-	const variable_type return_data();
+	void new_data(Type n_data);
+	const Type return_data();
 
-	Data *return_p_next_data();
-	void change_p_next_data(Data *next);
+	Data <Type> *return_p_next_data();
+	void change_p_next_data(Data <Type> *next);
 };
 
-Data::Data()
+template <typename Type>
+Data<Type>::Data()
 {
-	next_data = NULL;
+	next_data = nullptr;
 }
 
-Data::~Data()
+template <typename Type>
+Data<Type>::~Data()
 {
-	next_data = NULL;
+	next_data = nullptr;
 }
 
-void Data::new_data(variable_type n_data)
+template <typename Type>
+void Data<Type>::new_data(Type n_data)
 {
 	data = n_data;
 }
 
-const variable_type Data::return_data()
+template <typename Type>
+const Type Data<Type>::return_data()
 {
 	return data;
 }
 
-
-Data *Data::return_p_next_data()
+template <typename Type>
+Data <Type> *Data<Type>::return_p_next_data()
 {
 	return next_data;
 }
 
-void Data::change_p_next_data(Data *next)
+template <typename Type>
+void Data<Type>::change_p_next_data(Data <Type> *next)
 {
 	next_data = next;
 }
