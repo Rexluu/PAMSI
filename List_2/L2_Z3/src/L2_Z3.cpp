@@ -1,6 +1,7 @@
 #include "libraries.hpp"
-#include "Data.hpp"
+
 #include "Queue.hpp"
+
 #define variable_type int
 
 int menu()
@@ -39,7 +40,7 @@ int menu()
 			case '2':
 			{
 				if(queue.length() > 0) {
-					queue.remove();
+					queue.pop();
 				} else
 					cout << "Kolejka jest pusta" << endl;
 			}		
