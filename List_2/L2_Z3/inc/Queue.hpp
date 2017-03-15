@@ -1,3 +1,5 @@
+#include "Data.hpp"
+
 template <typename Type>
 class Queue
 {
@@ -10,7 +12,7 @@ public:
 	
 	const unsigned int length();
 	void push(Type data);
-	void remove();
+	void pop();
 	void show();
 	void remove_all();
 };
@@ -88,7 +90,7 @@ void Queue<Type>::remove_all()
 }
 
 template <typename Type>
-void Queue<Type>::remove()
+void Queue<Type>::pop()
 {
 	Data <Type> *pointer = first;
 	Data <Type> *temp = nullptr;
@@ -97,16 +99,9 @@ void Queue<Type>::remove()
 		delete pointer;
 		first = nullptr;
 	} else {
-		for(unsigned int i = 1; i < count-1; i++){
-			pointer = pointer->return_p_next_data();
-		}
-	
-		temp = pointer;
-		pointer = pointer->return_p_next_data();
+		temp=pointer->return_p_next_data();
 		delete pointer;
-
-		temp->change_p_next_data(nullptr);
-		last = temp;
+		first = temp;
 	}
 
 	count --;
