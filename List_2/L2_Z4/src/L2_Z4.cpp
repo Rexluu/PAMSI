@@ -9,7 +9,7 @@ bool check_palindrome(Deque <char> deque)
 	char tmp_front = deque.begin();
 	char tmp_end = deque.end();
 
-	if (len<=1) return true;
+	if (len<=1) { deque.pop_front(); return true; }
 	
 	if(tmp_front==tmp_end){
 		status=true; 
@@ -40,9 +40,12 @@ int menu()
 
 	if(check_palindrome(deque)) 
 		cout << endl << "Podane slowo jest palindromem" << endl;
-	else
+	else {
+		deque.remove_all();
 		cout << endl << "Podano slowo nie jest palindromem" << endl;
+	}
 }
+		
 
 int main()
 {	
