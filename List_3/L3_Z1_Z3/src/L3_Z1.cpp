@@ -50,7 +50,7 @@ int main()
 	start = clock();
 
 	for (variable_type i = 0; i < amount; i++)
-		stl_st.push_back(i);
+		stl_st.push(i);
 
 	stop = clock();
 
