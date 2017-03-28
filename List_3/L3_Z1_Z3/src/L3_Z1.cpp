@@ -20,7 +20,7 @@ int main()
 	std::cin >> amount;
 	std::cout << std::endl;
 
-// - - - - - - - - - - - - - - - -
+// - - - - - - - - - - - - - - -
 	
 	start = clock();
 
