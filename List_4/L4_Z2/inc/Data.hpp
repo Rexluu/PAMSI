@@ -2,49 +2,52 @@ template <typename Type>
 class Data
 {
 	Type data;  // variable, not class
-	Data <Type> **branch;
-	size;
+	Data <Type> *next_data;
 
 public:
-	Data(const unsigned int size);
+	Data();
 	~Data();
+
+	void new_data(Type n_data);
+	const Type return_data();
+
+	Data <Type> *return_p_next_data();
+	void change_p_next_data(Data <Type> *next);
 	
-	void new_data(const Type data);
-	Type return_data();
-	void change_p_branch(Data <type> *n_data, unsigned int number);
 };
 
 template <typename Type>
-Data<Type>::Data(const unsigned int in_size)
+Data<Type>::Data()
 {
-	branch = new Data <Type> *[in_size];
-	size = in_size;
-	for (unsigned int i = 0; i < size; i++)
-		branch[number] = nullptr;
+	next_data = nullptr;
 }
 
 template <typename Type>
 Data<Type>::~Data()
 {
-	delete [] branch;
+	next_data = nullptr;
 }
 
 template <typename Type>
-void Data<Type>::new_data(const Type n_data)
+void Data<Type>::new_data(Type n_data)
 {
 	data = n_data;
 }
 
 template <typename Type>
-Type Data<Type>::return_data()
+const Type Data<Type>::return_data()
 {
 	return data;
 }
 
 template <typename Type>
-void Data<Type>::change_p_branch(Data <type> *n_data, unsigned int number)
+Data <Type> *Data<Type>::return_p_next_data()
 {
-	branch[number] = n_data;
+	return next_data;
 }
 
-
+template <typename Type>
+void Data<Type>::change_p_next_data(Data <Type> *next)
+{
+	next_data = next;
+}

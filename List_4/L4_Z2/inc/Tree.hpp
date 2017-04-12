@@ -1,120 +1,138 @@
 template <typename Type>
-class Priority_queue // priority queue on two-way list
+class Tree
 {
-	Data <Type> *first;
-	unsigned long int count;
+	Tree_Data <Type> *root;
+	void remove_data(Tree_Data <Type> *data);
+	unsigned long int find_height(Tree_Data<Type> *data);
 public:
-	Priority_queue();
-	~Priority_queue();
+	Tree();
+	~Tree();
+
+	const Type root_data();
+	Tree_Data <Type> *return_root();
+	Tree_Data <Type> *return_branch(Tree_Data <Type> *pointer, const unsigned long int number);
+
+	void push(Type n_data, Tree_Data <Type> *pointer);
+	void remove(Tree_Data <Type> *data);
+
+	void Pre_order(Tree_Data <Type> *data);
+	void Post_order(Tree_Data <Type> *data);
 	
-	const unsigned int length();
-	void push(const unsigned long int priority, const Type data);
-	void remove_min();
-	void show();
-	const Type min();
+	const unsigned long int height();
 };
 
 template <typename Type>
-Priority_queue<Type>::Priority_queue()
+Tree<Type>::Tree()
 {
-	first = nullptr;
-	count = 0;
+	root = nullptr;
 }
 
 template <typename Type>
-Priority_queue<Type>::~Priority_queue()
+Tree<Type>::~Tree()
 {
-	Data <Type> *pointer = first;
-	Data <Type> *temp = nullptr;
+	remove_data(root);
+	root = nullptr;
+}
 
-	while(pointer!=nullptr)
-	{
-		temp = pointer->return_p_next_data();
-		delete pointer;
-		pointer = temp;
-	}
 
-	pointer = nullptr;
-	temp = nullptr;
-	count = 0;
-
-	first = nullptr;
+template <typename Type>
+const Type Tree<Type>::root_data()
+{
+	return root->get_data();
 }
 
 template <typename Type>
-const unsigned int Priority_queue<Type>::length()
+Tree_Data <Type> *Tree<Type>::return_root()
 {
-	return count;
+	return root;
 }
 
+
 template <typename Type>
-void Priority_queue<Type>::push(const unsigned long int priority, const Type data)  // not my best
+void Tree<Type>::push(Type n_data, Tree_Data <Type> *pointer)
 {
-	Data <Type> *new_data = new Data <Type>;
-	Data <Type> *pointer = first;
-	Data <Type> *prev_pointer = nullptr;
+	Tree_Data <Type> *new_data = new Tree_Data <Type>;
+	new_data->set_data(n_data);
 
-	new_data->new_data(priority, data);
-
-	if (count == 0 ) { 					// first element
-		first = new_data;
+	if (root == nullptr){
+		root = new_data;
+		new_data = nullptr;
 	} else {
-		while((pointer != nullptr) && (pointer->return_priority() <= priority)){
-			prev_pointer = pointer;
-			pointer = pointer->return_p_next_data();
-		}
+		new_data->set_parent(pointer);
+		pointer->set_branch(new_data);
+	}
+}
+
+template <typename Type>
+void Tree<Type>::remove(Tree_Data <Type> *data)
+{
+	for (unsigned long int i = 1; i <= data->count_branches(); i++)
+		remove_data(data->get_branch(i));
+	
+
+	unsigned long int number = 1;
+	for (unsigned long int i = 1; i <= ((data->get_parent())->count_branches()); i++)
+		if ( ((data->get_parent())->get_branch(i))->get_data() != data->get_data()) 
+			number++;
+		else 
+			break;
+	(data->get_parent())->remove(number);
+	delete data;
+	
+}
+
+template <typename Type>
+void Tree<Type>::remove_data(Tree_Data <Type> *data)
+{
+	for (unsigned long int i=1; i <= data->count_branches(); i++){
+		remove_data(data->get_branch(i));	
+	}
+
+	delete data;
+}
+
+template <typename Type>
+Tree_Data <Type> *Tree<Type>::return_branch(Tree_Data <Type> *pointer, const unsigned long int number)
+{
+	return pointer->get_branch(number);
+}
+
+template <typename Type>
+void Tree<Type>::Pre_order(Tree_Data <Type> *data)
+{
+	std::cout << data->get_data() << " | ";
+	for (unsigned long int i=1; i <= data->count_branches(); i++){
+		Pre_order(data->get_branch(i));	
+	}
 		
-		if (pointer == nullptr){ 			// last element
-			new_data -> change_p_previous_data(prev_pointer);
-			prev_pointer -> change_p_next_data(new_data);
-		} else {					// middle element
-			new_data->change_p_next_data(pointer);	
-			new_data->change_p_previous_data(prev_pointer);
+}
 
-			pointer->change_p_previous_data(new_data);
-
-			if(prev_pointer != nullptr) //if it isin't new first
-				prev_pointer -> change_p_next_data(new_data);
-			else
-				first = new_data;
-		}
+template <typename Type>
+void Tree<Type>::Post_order(Tree_Data <Type> *data)
+{
+	for (unsigned long int i=1; i <= data->count_branches(); i++){
+		Post_order(data->get_branch(i));	
 	}
-
-
-	pointer = nullptr;
-	prev_pointer = nullptr;
-	count++;
+	std::cout << data->get_data() << " | ";
 }
 
 template <typename Type>
-void Priority_queue<Type>::show()
+unsigned long int Tree<Type>::find_height(Tree_Data<Type> *data)
 {
-	Data <Type> *pointer = first;
-	unsigned int long counter = 0;
-
-	while(pointer!=nullptr)
-	{
-		std::cout << "Nr " << ++counter << " : " << pointer->return_data() << std::endl;
-		pointer = pointer->return_p_next_data();
+	if (data == nullptr) return 0;
+	
+	unsigned long int height = 0;
+	for (unsigned long int i=1; i <= data->count_branches(); i++){
+		unsigned long int h2 = find_height(data->get_branch(i));
+		if ( height < h2 ) height = h2;
 	}
-	pointer = nullptr;
+	
+	return height+1;
 }
 
 template <typename Type>
-const Type Priority_queue<Type>::min()
+const unsigned long int Tree<Type>::height()
 {
-	return first->return_data();
+	return find_height(root);
 }
 
-
-template <typename Type>
-void Priority_queue<Type>::remove_min()
-{
-	Data <Type> *pointer = first->return_p_next_data();
-	pointer->change_p_previous_data(nullptr);
-
-	delete first;
-	first = pointer;
-
-	count--;
-}

@@ -7,7 +7,7 @@ __start__: L4_Z2
 L4_Z2: obj/L4_Z2.o
 	g++ ${CXXFLAGS} -o L4_Z2 obj/L4_Z2.o
 
-obj/L4_Z2.o: src/L4_Z2.cpp inc/libraries.hpp inc/Data.hpp inc/Priority_queue.hpp
+obj/L4_Z2.o: src/L4_Z2.cpp inc/Tree_Data.hpp inc/Tree.hpp inc/Data.hpp inc/List.hpp
 	g++ ${CPPFLAGS} -o obj/L4_Z2.o src/L4_Z2.cpp
 
 clean:

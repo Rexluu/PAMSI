@@ -1,76 +1,67 @@
-#include "libraries.hpp"
-#include "Data.hpp"
-#include "Priority_queue.hpp"
-#define variable_type int
+#include <iostream>
+#include <stdlib.h>
 
-int menu()
+#include "Data.hpp"
+#include "List.hpp"
+#include "Tree_Data.hpp"
+#include "Tree.hpp"
+
+int tree_test()
 {
-	char option;
-	Priority_queue <variable_type> pq;
+	Tree <int> tr;
 	
+	int array[9] = {5, 8, 1, 2, 3, 10, 11, 4};
 
 	std::cout << std::endl;
-	std::cout << "- - - - - - - - - - - - - - - - - - - - - - - - -" << std::endl;
-	std::cout << "Program realizujący kolejke priorytetowa" << std::endl;
-	std::cout << "Typ danych ustalony w kodzie zrodlowym programu" << std::endl;
+	std::cout << "Liczby dodawane na drzewo: " << std::endl;
+	for (int i = 0; i < 8; i++ )
+		std::cout << array[i] << " ";
 	
-	while(1){
-		std::cout << std::endl;
-		std::cout << "1. Dodaj element" << std::endl;
-		std::cout << "2. Usun element z najmniejszym priorytetem" << std::endl;
-		std::cout << "3. Wyswietl element z najmniejszym priorytetem" << std::endl;
-		std::cout << "4. Wyswietl kolejke" << std::endl;
-		std::cout << "5. Usun kolejke i wyjdz z programu" << std::endl << std::endl;
-		
-		std::cout << "Opcja [1-4]: ";
-		std::cin >> option;
-		std::cout << std::endl;
+	tr.push(array[0], tr.return_root()); //height 1, add as root
 
-		switch(option)
-		{
-			case '1':
-			{	
-				std::cout << "[priorytet, dana]: ";
-				unsigned long int priority;
-				variable_type data;
-				std::cin >> priority;
-				std::cin >> data;
-				pq.push(priority, data);
-			}
-			break;
+	tr.push(array[1], tr.return_root()); //height 2
+	tr.push(array[2], tr.return_root());
 
-			case '2':
-			{
-				pq.remove_min();
-			}		
-			break;
+	tr.push(array[3], tr.return_branch(tr.return_root(),1)); //height 3
+	tr.push(array[4], tr.return_branch(tr.return_root(),1)); 
+	tr.push(array[5], tr.return_branch(tr.return_root(),1)); 
+	tr.push(array[6], tr.return_branch(tr.return_root(),2));
+	tr.push(array[7], tr.return_branch(tr.return_root(),2)); 
 
-			case '3':
-			{
-				std::cout << pq.min();
-			}	
-			break;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << "Root data:  " << tr.root_data() << std::endl;
+	std::cout << "Pre-order:  ";
+	tr.Pre_order(tr.return_root());
+	std::cout << std::endl;
 
-			case '4':
-			{
-				pq.show();
-			}	
-			break;
+	std::cout << "Post-order: ";
+	tr.Post_order(tr.return_root());
+	std::cout << std::endl;
 
-			case '5':
-				return 0;
-			break;
-			
-			default:
-				std::cerr << "Brak takiej opcji w menu programu" << std::endl;
-			break;
-		}
-	}
+	std::cout << "Rozmiar:    " << tr.height();
+	std::cout << std::endl;
+
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << "Po usunieciu danej numer 8" << std::endl;
+	tr.remove(tr.return_branch(tr.return_root(),1));
+	std::cout << "Root data:  " << tr.root_data() << std::endl;
+	std::cout << "Pre-order:  ";
+	tr.Pre_order(tr.return_root());
+	std::cout << std::endl;
+
+	std::cout << "Post-order: ";
+	tr.Post_order(tr.return_root());
+	std::cout << std::endl;
+	std::cout << "Rozmiar:    " << tr.height();
+	std::cout << std::endl;
+	std::cout << std::endl;
+	
 }
 
 int main()
 {	
-	
-	menu();
+	tree_test();
 	return 0;
 }
