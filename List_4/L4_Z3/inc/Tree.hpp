@@ -2,18 +2,21 @@ template <typename Type>
 class Binary_Tree
 {
 	Data <Type> *root;
-	unsigned long int size;
 
-	void remove_all(Data<Type> *data);
+	void remove(Data<Type> *data);
+	void find_data(const Type f_data, Data<Type> *data, Data<Type> **found_data);
+	long int find_height(Data<Type> *data);
 public:
 	Binary_Tree();
 	~Binary_Tree();
 
 	void push(Type n_data);
-	const unsigned long int length();
+	void remove_data(const Type r_data);
+	const unsigned long int height();
 	
 	const Type root_data();
 	Data <Type> *return_root();
+
 	void Pre_order(Data <Type> *data);
 	void Post_order(Data <Type> *data);
 	void In_order(Data <Type> *data);
@@ -28,24 +31,38 @@ Binary_Tree<Type>::Binary_Tree()
 template <typename Type>
 Binary_Tree<Type>::~Binary_Tree()
 {
-	remove_all(root);
+	remove(root);
 	root = nullptr;
 }
 
 template <typename Type>
-void Binary_Tree<Type>::remove_all(Data<Type> *data)
+void Binary_Tree<Type>::remove(Data<Type> *data)
 {
 	if(data != nullptr) {
-		remove_all (data->return_l_branch());
-		remove_all (data->return_r_branch());
+		remove (data->return_l_branch());
+		remove (data->return_r_branch());
 		delete data;
 	}
 }
 
 template <typename Type>
-const unsigned long int Binary_Tree<Type>::length()
+long int Binary_Tree<Type>::find_height(Data<Type> *data)
 {
-	return size;
+	if (data == nullptr) return 0;
+	
+	long int l_height = find_height(data->return_l_branch());
+	long int r_height = find_height(data->return_r_branch());
+
+	if (l_height >= r_height) 
+		return l_height+1; 
+	else 
+		return r_height+1; // if equal it is doesn't matter
+}
+
+template <typename Type>
+const unsigned long int Binary_Tree<Type>::height()
+{
+	return find_height(root);
 }
 
 
@@ -61,7 +78,6 @@ void Binary_Tree<Type>::push(Type n_data)
 	Data <Type> *new_data = new Data <Type>;
 	Data <Type> *pointer = root;
 	new_data->set_data(n_data);
-	unsigned long int count = 1;
 
 	if (root == nullptr){
 		root = new_data;
@@ -71,24 +87,48 @@ void Binary_Tree<Type>::push(Type n_data)
 			if(n_data > pointer->return_data()) {
 				if ( (pointer->return_r_branch()) == nullptr){
 					pointer->set_r_branch(new_data);
+					new_data->set_parent(pointer);
 					break;
 				}
 				pointer = pointer->return_r_branch();
-				count++;
 			} else {
 				if(n_data < pointer->return_data()) {
 					if ( (pointer->return_l_branch()) == nullptr){
 						pointer->set_l_branch(new_data);
+						new_data->set_parent(pointer);
 						break;
 					}
 				pointer = pointer->return_l_branch();
-				count++;
 				}
 			} // else if equal throw (optional)
 		}
 	}
+}
 
-	if ( count > size ) size = count;	
+template <typename Type>
+void Binary_Tree<Type>::remove_data(const Type r_data)
+{
+	Data <Type> *found_data;
+	Data <Type> *parent;
+	find_data(r_data, root, &found_data);
+
+	parent = found_data->return_parent();
+	if (parent != nullptr) {
+		if (parent->return_l_branch() == found_data) parent->set_l_branch(nullptr);
+		if (parent->return_r_branch() == found_data) parent->set_r_branch(nullptr);
+	}
+	
+	remove(found_data);
+}
+
+template <typename Type>
+void Binary_Tree<Type>::find_data(const Type f_data, Data<Type> *data, Data<Type> **found_data)
+{
+	if(data != nullptr) {
+		find_data (f_data, data->return_l_branch(), found_data);
+		find_data (f_data, data->return_r_branch(), found_data);
+		if(data->return_data() == f_data) *found_data = data;
+	}
 }
 
 template <typename Type>
