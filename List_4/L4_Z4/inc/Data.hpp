@@ -77,3 +77,4 @@ void Data<Type>::change_p_previous_data(Data <Type> *previous)
 {
 	previous_data = previous;
 }
+

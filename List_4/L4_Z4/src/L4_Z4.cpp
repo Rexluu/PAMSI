@@ -30,7 +30,6 @@ int sort()
 
 int main()
 {	
-	
 	sort();
 	return 0;
 }

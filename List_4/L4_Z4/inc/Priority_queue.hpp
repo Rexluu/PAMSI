@@ -3,6 +3,7 @@ class Priority_queue // priority queue on two-way list
 {
 	Data <Type> *first;
 	unsigned long int count;
+
 public:
 	Priority_queue();
 	~Priority_queue();
